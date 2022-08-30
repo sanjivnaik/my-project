@@ -6,6 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Login from '../login/Login';
 import About from '../main-components/About';
 import Contact from '../main-components/Contact';
 import Home from '../main-components/Home';
@@ -32,7 +33,6 @@ export default class NavbarComponent extends Component {
               <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
                   <Nav.Link as={Link} to={"/home"}>Home</Nav.Link>
-                  <Nav.Link as={Link} to={"/about"}>About</Nav.Link>
                   <NavDropdown title="Admin" id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to={"/users"}>Users</NavDropdown.Item>
                   <NavDropdown.Item as={Link} to={"/roles"}>Roles</NavDropdown.Item>
@@ -40,7 +40,8 @@ export default class NavbarComponent extends Component {
                   <NavDropdown.Divider />
                   <NavDropdown.Item as={Link} to={"/users"}>Help</NavDropdown.Item>
                   </NavDropdown>                  
-                  <Nav.Link as={Link} to={"/contact"}>Contact</Nav.Link>
+                  <Nav.Link as={Link} to={"/contact"}>Contact</Nav.Link>                  
+                  <Nav.Link as={Link} to={"/login"}>Login</Nav.Link>
               </Nav>
               </Navbar.Collapse>
           </Container>
@@ -54,7 +55,7 @@ export default class NavbarComponent extends Component {
           <Route path="contact/" element={<Contact />} />
           <Route path="users/" element={<ReadUsers />} />
           <Route path="users/create/" element={<CreateUser />} />
-
+          <Route path="login/" element={<Login />} />
           </Routes>
         </div>
       </Router>
