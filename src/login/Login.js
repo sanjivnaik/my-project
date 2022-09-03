@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 //import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { Button, Col, Form, Row } from 'react-bootstrap';
+//import Input from "react-validation/build/input";
+//import CheckButton from "react-validation/build/button";
+import { Alert, Button, Col, Form, Row } from 'react-bootstrap';
 //import AuthService from "../services/auth.service";
 
-function Login() {
+import PropTypes from 'prop-types';
+import AuthService from '../services/AuthService';
+
+export default function Login({ setToken }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const required = value => {
         if (!value) {
@@ -20,15 +24,41 @@ function Login() {
         }
     };
 
-    const handleLogin = (e) => {
-
+    const handleSubmit = async e => {
+        setError('');
+        setIsLoading(true)
+        e.preventDefault();
+        await AuthService.loginUser({
+            username,
+            password
+        }).then(res => {         
+            saveToken(res.data);
+            setIsLoading(false);
+        }).catch(error => {
+            setIsLoading(false);
+            if (error.response.status === 401) {
+                setError("Unauthorized")
+            } else {
+                setError(error.message);
+            }
+        });
     }
 
-    return (
-        <div class="col-md-4 offset-md-4">  
+    const saveToken = userToken => {
+        sessionStorage.setItem('token', JSON.stringify(userToken));
+        setToken(JSON.stringify(userToken));
+    };
 
+    return (
+        <div className="col-md-4 offset-md-4">  
             <h1 className = "text-center"> Log in </h1>
-            <Form >
+
+            <Form>
+                {error != '' && 
+                <Alert variant="danger" onClose={() => setError('')} dismissible>
+                    <Alert.Heading>{error}</Alert.Heading>
+                </Alert>
+                }
 
                 <Form.Group as={Row} className="mb-3" controlId="firstName">
                     <Form.Label column sm={2}>
@@ -39,7 +69,6 @@ function Login() {
                         onChange={e => setUsername(e.target.value)} />
                     </Col>
                 </Form.Group>
-
                 <Form.Group as={Row} className="mb-3" controlId="lastName">
                     <Form.Label column sm={2}>
                     Password
@@ -49,16 +78,17 @@ function Login() {
                     onChange={e => setPassword(e.target.value)} />
                     </Col>
                 </Form.Group>
-
                 <Button
                     variant="primary" type='submit'
-                    disabled={loading}
-                    onClick={!loading ? handleLogin : null}>
-                        {loading ? 'Loading…' : 'Submit'}
-            </Button>
+                    disabled={isLoading}
+                    onClick={!isLoading ? handleSubmit : null}>
+                        {isLoading ? 'Loading…' : 'Submit'}
+                </Button>
             </Form>
         </div>        
-      );
+    );
 }
 
-export default Login;
+Login.propTypes = {
+    setToken: PropTypes.func.isRequired
+};
