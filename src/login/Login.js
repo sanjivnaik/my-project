@@ -26,7 +26,7 @@ export default function Login({ setToken }) {
 
     const handleSubmit = async e => {
         setError('');
-        setIsLoading(true)
+        setIsLoading(true);
         e.preventDefault();
         await AuthService.loginUser({
             username,
@@ -37,7 +37,7 @@ export default function Login({ setToken }) {
         }).catch(error => {
             setIsLoading(false);
             if (error.response.status === 401) {
-                setError("Unauthorized")
+                setError("Unauthorized");
             } else {
                 setError(error.message);
             }

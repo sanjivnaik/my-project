@@ -1,19 +1,31 @@
-import React from 'react';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import React, {useState} from 'react';
+import { Button, Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
-//import Login from '../login/Login';
+import App from '../App';
 import About from '../main-components/About';
 import Contact from '../main-components/Contact';
 import Home from '../main-components/Home';
 import CreateUser from '../main-components/user/CreateUser';
 import ReadUsers from '../main-components/user/ReadUsers';
 
-function NavbarComponent() {
+function NavbarComponent({ setToken }) {
+  const [loggedIn, setLoggedIn] = useState(true);
+  const handleLogout = () => {
+    sessionStorage.clear();
+    setLoggedIn(false);
+  }
+
+  if (!loggedIn) {
+    return (
+      <App />
+    );
+  }
+
   return (
     <Router>
       <div>
@@ -39,10 +51,11 @@ function NavbarComponent() {
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to={"/users"}>Help</NavDropdown.Item>
                 </NavDropdown>                  
-                <Nav.Link as={Link} to={"/contact"}>Contact</Nav.Link>                  
-                {/*<Nav.Link as={Link} to={"/login"}>Login</Nav.Link> */}
+                <Nav.Link as={Link} to={"/contact"}>Contact</Nav.Link>
             </Nav>
             </Navbar.Collapse>
+
+            <Button className="btn btn-primary col-2" onClick={handleLogout}>Logout</Button>
         </Container>
         </Navbar>
       </div>
@@ -54,7 +67,6 @@ function NavbarComponent() {
         <Route path="contact/" element={<Contact />} />
         <Route path="users/" element={<ReadUsers />} />
         <Route path="users/create/" element={<CreateUser />} />
-        {/*<Route path="login/" element={<Login />} />*/}
         </Routes>
       </div>
     </Router>
