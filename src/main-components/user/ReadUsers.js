@@ -18,7 +18,6 @@ function ReadUsers() {
             if (response.status === 200) {
                 setUsers(response.data);
                 setLoading(false);
-                console.log(response.data);
             }
         }).catch((error) => {
             setLoading(false);
@@ -27,7 +26,7 @@ function ReadUsers() {
     };
 
     const checkDelete = () => {
-        console.log('checking');
+        //console.log('checking');
     }
 
     return (

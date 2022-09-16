@@ -1,10 +1,11 @@
 import axios from 'axios';
+import authHeader from './authHeader';
 
 const USER_REST_API_URL = 'http://localhost:8081/api/employees';
 
 class UserService {
     getUsers() {
-        return axios.get(USER_REST_API_URL);
+        return axios.get(USER_REST_API_URL, { headers: authHeader() });
     }
 
     createUser(employee) {

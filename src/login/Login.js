@@ -45,7 +45,7 @@ export default function Login({ setToken }) {
     }
 
     const saveToken = userToken => {
-        sessionStorage.setItem('token', JSON.stringify(userToken));
+        sessionStorage.setItem('user', JSON.stringify(userToken));
         setToken(JSON.stringify(userToken));
     };
 

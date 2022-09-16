@@ -4,12 +4,13 @@ import NavbarComponent from './navbar-components/NavbarComponent';
 
 function App() {
   const getToken = () => {
-    const tokenString = sessionStorage.getItem('token');
-    if (tokenString !== null) {
-      const userToken = JSON.parse(tokenString);
-      return userToken.jwttoken;
+    const userInfo = sessionStorage.getItem('user');
+    if (userInfo !== null) {
+      const user = JSON.parse(userInfo);
+      return user.jwttoken;
     }
   }
+
   const [token, setToken] = useState(getToken());
   if (!token) {
     return (
