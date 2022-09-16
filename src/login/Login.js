@@ -44,9 +44,9 @@ export default function Login({ setToken }) {
         });
     }
 
-    const saveToken = userToken => {
-        sessionStorage.setItem('user', JSON.stringify(userToken));
-        setToken(JSON.stringify(userToken));
+    const saveToken = userInfo => {
+        sessionStorage.setItem('user', JSON.stringify(userInfo));
+        setToken(JSON.stringify(userInfo.jwttoken));
     };
 
     return (
